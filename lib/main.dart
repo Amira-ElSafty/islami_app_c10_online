@@ -3,14 +3,19 @@ import 'package:flutter_app_islami_c10_online/home/hadeth/hadeth_details_screen.
 import 'package:flutter_app_islami_c10_online/home/home_screen.dart';
 import 'package:flutter_app_islami_c10_online/home/quran/sura_details_screen.dart';
 import 'package:flutter_app_islami_c10_online/my_theme.dart';
+import 'package:flutter_app_islami_c10_online/providers/app_config_provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider(
+      create: (context) => AppConfigProvider(), child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var provider = Provider.of<AppConfigProvider>(context);
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       initialRoute: HomeScreen.routeName,
@@ -20,6 +25,11 @@ class MyApp extends StatelessWidget {
         HadethDetailsScreen.routeName: (context) => HadethDetailsScreen(),
       },
       theme: MyTheme.lightMode,
+      themeMode: provider.appTheme,
+      darkTheme: MyTheme.darkMode,
+      locale: Locale(provider.appLanguage),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
     );
   }
 }
